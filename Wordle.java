@@ -1,10 +1,3 @@
-/*
- * File: Wordle.java
- * -----------------
- * This module is the starter file for the Wordle assignment.
- * BE SURE TO UPDATE THIS COMMENT WHEN YOU COMPLETE THE CODE.
- */
-
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -38,10 +31,6 @@ public class Wordle {
             });
         }
     }
-
-    /**
-     * returns a random word from WordleDictionary.
-     */
     public String chooseWord(){
         int index = random.nextInt(WordleDictionary.FIVE_LETTER_WORDS.length - 1);
         return WordleDictionary.FIVE_LETTER_WORDS[index];
@@ -72,11 +61,6 @@ public class Wordle {
         return false;
     }
 
-    /*
-     * Called when the user hits the RETURN key or clicks the ENTER button,
-     * passing in the string of characters on the current row.
-     */
-
     public void enterAction(String s) throws FileNotFoundException {
         if(!hasWon) {
             if(!isValidWord(s)) {
@@ -106,37 +90,6 @@ public class Wordle {
             }
         }
     }
-
-    /**
-     * @param guess the user's guess
-     * @param word the secret word to be guessed
-     * @return a String version of the hint where a capital letter
-     * represents a correct guess at the correct location, a lower
-     * case letter represents a correct guess at the wrong location,
-     * and a '*' represents an incorrect letter (neither in the
-     * correct place nor a correct letter anywhere in the word)
-     *
-     * You will use this helper method when coloring the squares.
-     * It's also the crucial method that is tested in codePost.
-     *
-     * Examples:
-     * word        = "CLASS"
-     * guess       = "SASSY"
-     * returns:      "sa*S*"
-     *
-     * word        = "FLUFF"
-     * guess       = "OFFER"
-     * returns:      "*ff**"
-     *
-     * word        = "STACK"
-     * guess       = "TASTE"
-     * returns:      "tas**"
-     *
-     * word        = "MYTHS"
-     * guess       = "HITCH"
-     * returns:      "h*T**"
-     *
-     */
     public String getHint(String guess, String word) {
         // Create a char array to hold the hint
         char[] hint = new char[word.length()];
@@ -180,14 +133,6 @@ public class Wordle {
         return new String(hint);
     }
 
-    /**
-     * Helper method which returns non-garbled hints.
-     * @param hint
-     * @param guess
-     * @param word
-     * @return out, the better-organized hint.
-     */
-
     public String parseHint(String hint, String guess, String word) {
         StringBuilder out = new StringBuilder(hint);
         for (int i = 0; i < hint.length(); i++) {
@@ -197,13 +142,6 @@ public class Wordle {
         }
         return out.toString();
     }
-
-    /**
-     * listOfPossibleWords, an inbuilt cheating algorithm which gives you lists of possible answers which conform to the hints given from previous guesses.
-     * @param guessToClue
-     * @param dictionary
-     * @return listOfPossibleWords, an ArrayList object containing all the possible words that conform to the given guesses and clues.
-     */
 
     public static List<String> listOfPossibleWords(Map<String, String> guessToClue, String[] dictionary) {
         List<String> possibleWords = new ArrayList<>();
@@ -320,12 +258,6 @@ public class Wordle {
         }
     }
 
-    /**
-     * readScores() Reads scores from file
-     * @return Integer array scoreOutput, a collection of how many times games are won with a number of guesses.
-     * @throws FileNotFoundException
-     */
-
     //scores will be returned in int[] in the order [1, 2, 3, 4, 5, 6]
     public int[] readScores() throws FileNotFoundException {
         Scanner scan = new Scanner(new FileReader("score.txt"));
@@ -340,10 +272,6 @@ public class Wordle {
         return scoreOutput;
     }
 
-    /**
-     * DisplayScores displays the scores for the current and past games in a new window (tweaks were made to the backend code for aesthetic purposes only.)
-     * @param scores
-     */
     public void displayScores(int[] scores) {
         boolean delete = false;
         for (int i = 0; i < scores.length; i++) {
@@ -370,9 +298,6 @@ public class Wordle {
         }
     }
 
-    /**
-     * wipeScores, a method to handle clearing the score file when it becomes too large.
-     */
     public void wipeScores() {
         try {
             new FileOutputStream("score.txt").close();
