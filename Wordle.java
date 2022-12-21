@@ -65,7 +65,6 @@ public class Wordle {
         if(!hasWon) {
             if(!isValidWord(s)) {
                 gw.showMessage("Please enter an actual word");
-                System.out.println(listOfPossibleWords(wordsToClue, WordleDictionary.FIVE_LETTER_WORDS));
                 for (int i = 0; i < s.length(); i++) {
                     gw.setSquareColor(gw.getCurrentRow(), i, new Color(0xFFFFFF));
                 }
@@ -141,82 +140,6 @@ public class Wordle {
             }
         }
         return out.toString();
-    }
-
-    public static List<String> listOfPossibleWords(Map<String, String> guessToClue, String[] dictionary) {
-        List<String> possibleWords = new ArrayList<>();
-        Map<String, String> givenClues = new HashMap<>();
-        givenClues.put("BYTES", "**teS");
-        givenClues.put("AFFIX", "*****");
-        givenClues.put("MERGE", "*e***");
-        givenClues.put("CLOUD", "*****");
-
-        if(guessToClue.equals(givenClues)) {
-            possibleWords.add("steps");
-            possibleWords.add("stews");
-            possibleWords.add("thews");
-            possibleWords.add("whets");
-            return possibleWords;
-        }
-
-        //define data structures to hold clue and word information
-        Map<Integer, Character> correctLetters = new HashMap<>();
-        Map<Character, ArrayList<Integer>> incorrectPlaces = new HashMap<>();
-        ArrayList<Character> wrongLetters = new ArrayList<>();
-
-        for (Map.Entry<String, String> entry : guessToClue.entrySet()) {
-            String guess = entry.getKey();
-            String clue = entry.getValue();
-            for (int i = 0; i < guess.length(); i++) {
-                char clueChar = clue.charAt(i);
-                char guessChar = guess.charAt(i);
-                if (Character.isUpperCase(clueChar)) {
-                    correctLetters.put(i, guessChar);
-                } else if (Character.isLowerCase(clueChar)) {
-                    if (!incorrectPlaces.containsKey(clueChar)) {
-                        incorrectPlaces.put(clueChar, new ArrayList<>());
-                    }
-                    incorrectPlaces.get(clueChar).add(i);
-                } else if (clueChar == '*') {
-                    wrongLetters.add(guessChar);
-                }
-            }
-        }
-
-        // go through all words in the dictionary
-        for (String word : dictionary) {
-            boolean isPossibleWord = true;
-            for (int i = 0; i < word.length(); i++) {
-                if (correctLetters.containsKey(i)) {
-                    if (word.charAt(i) == Character.toLowerCase(correctLetters.get(i))) {
-                        continue;
-                    } else {
-                        isPossibleWord = false;
-                        break;
-                    }
-                }
-                for (char c : incorrectPlaces.keySet()) {
-                    if (word.indexOf(c) != -1) {
-                        if (incorrectPlaces.get(c).contains(word.indexOf(c))) {
-                            isPossibleWord = false;
-                            break;
-                        }
-                    } else {
-                        isPossibleWord = false;
-                        break;
-                    }
-                }
-                if (wrongLetters.contains(Character.toUpperCase(word.charAt(i)))) {
-                    isPossibleWord = false;
-                    break;
-                }
-            }
-
-            if (isPossibleWord) {
-                possibleWords.add(word);
-            }
-        }
-        return possibleWords;
     }
 
     // helper method to check if a clue matches the corresponding characters in a word
