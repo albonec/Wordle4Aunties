@@ -10,6 +10,7 @@ public class Wordle {
     private Random random = new Random();
     private int guesses = 0;
     public static boolean hasWon = false;
+    public static boolean isCWOpen = false;
 
     public Map<String, String> wordsToClue = new HashMap<>();
 
@@ -21,7 +22,7 @@ public class Wordle {
             while(!isApprovedChoice(word)) {
                 word = chooseWord().toUpperCase();
             }
-            gw = new WordleGWindow("Wordle", true, 500, 700);
+            gw = new WordleGWindow("Wordle", true, true, 500, 700);
             gw.addEnterListener((s) -> {
                 try {
                     enterAction(s);
@@ -274,12 +275,12 @@ public class Wordle {
 
     public void displayScores(int[] scores) {
         boolean delete = false;
-        for (int i = 0; i < scores.length; i++) {
-            if (scores[i] > 99) {
+        for(int score : scores) {
+            if(score > 99) {
                 delete = true;
             }
         }
-        WordleGWindow scoreWindow = new WordleGWindow("Scores", false, 500, 475);
+        WordleGWindow scoreWindow = new WordleGWindow("Scores", false, true, 500, 475);
         scoreWindow.showMessage("Scores");
         if (!delete) {
             for (int i = 0; i < 6; i++) {

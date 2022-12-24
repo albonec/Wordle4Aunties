@@ -46,12 +46,12 @@ public class WordleGWindow {
  * Creates a new WordleGWindow object and displays it on the screen.
  */
 
-    public WordleGWindow(String title, boolean keys, int width, int height) {
+    public WordleGWindow(String title, boolean keys, boolean grid, int width, int height) {
         JFrame frame = new JFrame(title);
         frame.setBackground(Color.WHITE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        canvas = new WordleCanvas(keys, width, height);
+        canvas = new WordleCanvas(grid, keys, width, height);
         frame.add(canvas, BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
@@ -196,11 +196,15 @@ public class WordleGWindow {
 class WordleCanvas extends JComponent implements KeyListener, MouseListener {
 
     private boolean renderKeys;
+    private boolean renderGrid;
 
-    public WordleCanvas(boolean keysPresent, int width, int height) {
+    public WordleCanvas(boolean gridPresent, boolean keysPresent, int width, int height) {
         this.renderKeys = keysPresent;
+        this.renderGrid = gridPresent;
         setPreferredSize(new Dimension(width/*500*/, height/*700*/));
-        initWordleGrid();
+        if(gridPresent) {
+            initWordleGrid();
+        }
         if(keysPresent) {
             initWordleKeys();
         }
@@ -341,9 +345,11 @@ class WordleCanvas extends JComponent implements KeyListener, MouseListener {
 
     @Override
     public void paintComponent(Graphics g) {
-        for (int row = 0; row < N_ROWS; row++) {
-            for (int col = 0; col < N_COLS; col++) {
-                grid[row][col].paint(g);
+        if(this.renderGrid) {
+            for (int row = 0; row < N_ROWS; row++) {
+                for (int col = 0; col < N_COLS; col++) {
+                    grid[row][col].paint(g);
+                }
             }
         }
         if(this.renderKeys) {
