@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.io.*;
 import java.util.*;
-import java.util.List;
 
 public class Wordle {
 
@@ -238,6 +237,5 @@ public class Wordle {
             System.exit(0);
         }
     }
-
 
 }
