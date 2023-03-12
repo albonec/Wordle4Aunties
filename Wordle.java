@@ -189,12 +189,10 @@ public class Wordle {
             lines.add(scan.nextLine());
         }
         for (int i = 0; i < lines.size(); i++) {
-            if(Integer.valueOf(lines.get(i)) < 6 && Integer.valueOf(lines.get(i)) - 1 >= 0) {
+            if(Integer.valueOf(lines.get(i)) <= 6 && Integer.valueOf(lines.get(i)) > 0) {
                 scoreOutput[Integer.valueOf(lines.get(i)) - 1] += 1;
             } else {
                 wipeScores();
-                Arrays.fill(scoreOutput, 0);
-                throw new IllegalArgumentException("Value too high! Minimum number of guesses for a win is 1, maximum is 6. Scores have been wiped!");
             }
         }
         return scoreOutput;
