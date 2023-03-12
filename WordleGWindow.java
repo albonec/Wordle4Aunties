@@ -372,7 +372,9 @@ class WordleCanvas extends JComponent implements KeyListener, MouseListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        keyAction(e.getKeyChar());
+        if(renderKeys) {
+            keyAction(e.getKeyChar());
+        }
     }
 
 /* MouseListener */
