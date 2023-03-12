@@ -61,7 +61,6 @@ public class Wordle {
     }
 
     public void enterAction(String s) throws FileNotFoundException {
-        System.out.println(word);
         if(!hasWon) {
             if(!isValidWord(s)) {
                 gw.showMessage("Please enter an actual word");
