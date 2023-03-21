@@ -1,12 +1,3 @@
-/*
- * File: WordleGWindow.java
- * ------------------------
- * This file implements the WordleGWindow class, which manages the
- * graphical display for the Wordle project.
- */
-
- 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -22,13 +13,7 @@ import javax.swing.JComponent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * This class implements graphics for the Wordle assignment.
- */
-
 public class WordleGWindow {
-
-/** The number of rows in the Wordle grid. */
     public static final int N_ROWS = 6;
 
 /** The number of columns in the Wordle grid. */

@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class Wordle {
@@ -25,6 +26,10 @@ public class Wordle {
                 try {
                     enterAction(s);
                 } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
             });
@@ -60,7 +65,8 @@ public class Wordle {
         return false;
     }
 
-    public void enterAction(String s) throws FileNotFoundException {
+    public void enterAction(String s) throws IOException, URISyntaxException {
+        System.out.println(word);
         if(!hasWon) {
             if(!isValidWord(s)) {
                 gw.showMessage("Please enter an actual word");
@@ -87,6 +93,7 @@ public class Wordle {
                 wordsToClue.put(s, parseHint(getHint(s, word), s, word));
             }
         }
+        restartApplication();
     }
     public String getHint(String guess, String word) {
         // Create a char array to hold the hint
@@ -230,6 +237,25 @@ public class Wordle {
         } catch(Exception e) {
             System.out.println("Couldn't wipe scores, file nonexistent. StackTrace: " + e.getStackTrace().toString());
         }
+    }
+
+    public void restartApplication() throws URISyntaxException, IOException {
+        final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+        final File currentJar = new File(Wordle.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+
+        /* is it a jar file? */
+        if(!currentJar.getName().endsWith(".jar"))
+            return;
+
+        /* Build command: java -jar application.jar */
+        final ArrayList<String> command = new ArrayList<String>();
+        command.add(javaBin);
+        command.add("-jar");
+        command.add(currentJar.getPath());
+
+        final ProcessBuilder builder = new ProcessBuilder(command);
+        builder.start();
+        System.exit(0);
     }
 
     /* Startup code */
