@@ -30,9 +30,10 @@ public class WordleGWindow {
 /**
  * Creates a new WordleGWindow object and displays it on the screen.
  */
+    JFrame frame;
 
     public WordleGWindow(String title, boolean keys, int width, int height) {
-        JFrame frame = new JFrame(title);
+        frame = new JFrame(title);
         frame.setBackground(Color.WHITE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -50,6 +51,10 @@ public class WordleGWindow {
  * @param letter The new contents of the square as a string
  */
 
+    public void close() {
+        frame.setVisible(false);
+        frame.dispose();
+    }
     public void setSquareLetter(int row, int col, String letter) {
         canvas.setSquareLetter(row, col, letter);
     }
@@ -287,7 +292,7 @@ class WordleCanvas extends JComponent implements KeyListener, MouseListener {
             for (int col = 0; col < N_COLS; col++) {
                 setSquareLetter(row, col, "");
                 setSquareColor(row, col, UNKNOWN_COLOR);
-            }
+            } /* Build command: java -jar application.jar */
             repaint();
     }
 

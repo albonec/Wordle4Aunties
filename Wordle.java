@@ -93,8 +93,10 @@ public class Wordle {
             if(isValidWord(s)) {
                 wordsToClue.put(s, parseHint(getHint(s, word), s, word));
             }
+        } else if (hasWon) {
+            gw.close();
+            restartApplication();
         }
-        restartApplication();
     }
     public String getHint(String guess, String word) {
         // Create a char array to hold the hint
