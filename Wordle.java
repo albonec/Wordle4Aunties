@@ -78,8 +78,9 @@ public class Wordle {
                 colorSquares(getHint(s, word));
                 if (s.equals(word)) {
                     writeToFile(String.valueOf(guesses + 1));
-                    gw.showMessage("You win! It took " + (guesses + 1) + " guesses!");
+                    gw.showMessage("You win! It took " + (guesses + 1) + " guesses!" + " Press enter to restart.");
                     displayScores(readScores());
+                    hasWon = true;
                 }
                 else if (guesses == 5 && !hasWon) {
                     gw.showMessage("The word was: " + word);
