@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Wordle {
 
-    private WordleGWindow gw;
+    private WordleGWindow gw, sw;
     private String word;
     private Random random = new Random();
     private int guesses = 0;
@@ -22,6 +22,8 @@ public class Wordle {
                 word = chooseWord().toUpperCase();
             }
             gw = new WordleGWindow("Wordle", true, 500, 700);
+            gw.setVisible(true);
+            sw = new WordleGWindow("Scores", false, 500, 475);
             gw.addEnterListener((s) -> {
                 try {
                     enterAction(s);
@@ -94,8 +96,10 @@ public class Wordle {
                 wordsToClue.put(s, parseHint(getHint(s, word), s, word));
             }
         } else if (hasWon) {
+            sw.close();
             gw.close();
-            restartApplication();
+            Runtime.getRuntime().exec("java -jar wordle-offine.jar");
+            System.exit(0);
         }
     }
     public String getHint(String guess, String word) {
@@ -215,22 +219,22 @@ public class Wordle {
                 delete = true;
             }
         }
-        WordleGWindow scoreWindow = new WordleGWindow("Scores", false, 500, 475);
-        scoreWindow.showMessage("Scores");
+        sw.setVisible(true);
+        sw.showMessage("Scores");
         if (!delete) {
             for (int i = 0; i < 6; i++) {
-                scoreWindow.setSquareColor(i, 0, WordleGWindow.CORRECT_COLOR);
-                scoreWindow.setSquareLetter(i, 0, String.valueOf(i + 1));
+                sw.setSquareColor(i, 0, WordleGWindow.CORRECT_COLOR);
+                sw.setSquareLetter(i, 0, String.valueOf(i + 1));
                 if (scores[i] < 10) {
-                    scoreWindow.setSquareLetter(i, 4, String.valueOf(scores[i]));
+                    sw.setSquareLetter(i, 4, String.valueOf(scores[i]));
                 } else {
-                    scoreWindow.setSquareLetter(i, 3, String.valueOf(scores[i]).substring(0, 1));
-                    scoreWindow.setSquareLetter(i, 4, String.valueOf(scores[i]).substring(1, 2));
+                    sw.setSquareLetter(i, 3, String.valueOf(scores[i]).substring(0, 1));
+                    sw.setSquareLetter(i, 4, String.valueOf(scores[i]).substring(1, 2));
                 }
             }
         } else {
             wipeScores();
-            scoreWindow.showMessage("Scores Deleted!");
+            sw.showMessage("Scores Deleted!");
         }
     }
 

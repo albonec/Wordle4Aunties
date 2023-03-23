@@ -40,7 +40,7 @@ public class WordleGWindow {
         canvas = new WordleCanvas(keys, width, height);
         frame.add(canvas, BorderLayout.CENTER);
         frame.pack();
-        frame.setVisible(true);
+        frame.setVisible(false);
     }
 
 /**
@@ -51,6 +51,9 @@ public class WordleGWindow {
  * @param letter The new contents of the square as a string
  */
 
+    public void setVisible(boolean state) {
+        frame.setVisible(state);
+    }
     public void close() {
         frame.setVisible(false);
         frame.dispose();
