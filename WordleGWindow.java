@@ -1,12 +1,3 @@
-/*
- * File: WordleGWindow.java
- * ------------------------
- * This file implements the WordleGWindow class, which manages the
- * graphical display for the Wordle project.
- */
-
- 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -22,13 +13,7 @@ import javax.swing.JComponent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * This class implements graphics for the Wordle assignment.
- */
-
 public class WordleGWindow {
-
-/** The number of rows in the Wordle grid. */
     public static final int N_ROWS = 6;
 
 /** The number of columns in the Wordle grid. */
@@ -45,16 +30,17 @@ public class WordleGWindow {
 /**
  * Creates a new WordleGWindow object and displays it on the screen.
  */
+    JFrame frame;
 
     public WordleGWindow(String title, boolean keys, int width, int height) {
-        JFrame frame = new JFrame(title);
+        frame = new JFrame(title);
         frame.setBackground(Color.WHITE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         canvas = new WordleCanvas(keys, width, height);
         frame.add(canvas, BorderLayout.CENTER);
         frame.pack();
-        frame.setVisible(true);
+        frame.setVisible(false);
     }
 
 /**
@@ -65,6 +51,13 @@ public class WordleGWindow {
  * @param letter The new contents of the square as a string
  */
 
+    public void setVisible(boolean state) {
+        frame.setVisible(state);
+    }
+    public void close() {
+        frame.setVisible(false);
+        frame.dispose();
+    }
     public void setSquareLetter(int row, int col, String letter) {
         canvas.setSquareLetter(row, col, letter);
     }
@@ -302,7 +295,7 @@ class WordleCanvas extends JComponent implements KeyListener, MouseListener {
             for (int col = 0; col < N_COLS; col++) {
                 setSquareLetter(row, col, "");
                 setSquareColor(row, col, UNKNOWN_COLOR);
-            }
+            } /* Build command: java -jar application.jar */
             repaint();
     }
 

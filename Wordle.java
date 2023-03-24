@@ -1,10 +1,11 @@
 import java.awt.*;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.*;
 
 public class Wordle {
 
-    private WordleGWindow gw;
+    private WordleGWindow gw, sw;
     private String word;
     private Random random = new Random();
     private int guesses = 0;
@@ -21,10 +22,16 @@ public class Wordle {
                 word = chooseWord().toUpperCase();
             }
             gw = new WordleGWindow("Wordle", true, 500, 700);
+            gw.setVisible(true);
+            sw = new WordleGWindow("Scores", false, 500, 475);
             gw.addEnterListener((s) -> {
                 try {
                     enterAction(s);
                 } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
                     throw new RuntimeException(e);
                 }
             });
@@ -60,7 +67,7 @@ public class Wordle {
         return false;
     }
 
-    public void enterAction(String s) throws FileNotFoundException {
+    public void enterAction(String s) throws IOException, URISyntaxException {
         if(!hasWon) {
             if(!isValidWord(s)) {
                 gw.showMessage("Please enter an actual word");
@@ -72,11 +79,13 @@ public class Wordle {
                 colorSquares(getHint(s, word));
                 if (s.equals(word)) {
                     writeToFile(String.valueOf(guesses + 1));
-                    gw.showMessage("You win! It took " + (guesses + 1) + " guesses!");
+                    gw.showMessage("You win! It took " + (guesses + 1) + " guesses!" + " Press enter to restart.");
                     displayScores(readScores());
+                    hasWon = true;
                 }
                 else if (guesses == 5 && !hasWon) {
-                    gw.showMessage("The word was: " + word);
+                    gw.showMessage("The word was: " + word + ". Press enter to restart.");
+                    hasWon = true;
                 } else {
                     gw.setCurrentRow(gw.getCurrentRow() + 1);
                     guesses++;
@@ -86,6 +95,11 @@ public class Wordle {
             if(isValidWord(s)) {
                 wordsToClue.put(s, parseHint(getHint(s, word), s, word));
             }
+        } else if (hasWon) {
+            sw.close();
+            gw.close();
+            Runtime.getRuntime().exec("java -jar wordle-offline.jar");
+            System.exit(0);
         }
     }
     public String getHint(String guess, String word) {
@@ -205,22 +219,22 @@ public class Wordle {
                 delete = true;
             }
         }
-        WordleGWindow scoreWindow = new WordleGWindow("Scores", false, 500, 475);
-        scoreWindow.showMessage("Scores");
+        sw.setVisible(true);
+        sw.showMessage("Scores");
         if (!delete) {
             for (int i = 0; i < 6; i++) {
-                scoreWindow.setSquareColor(i, 0, WordleGWindow.CORRECT_COLOR);
-                scoreWindow.setSquareLetter(i, 0, String.valueOf(i + 1));
+                sw.setSquareColor(i, 0, WordleGWindow.CORRECT_COLOR);
+                sw.setSquareLetter(i, 0, String.valueOf(i + 1));
                 if (scores[i] < 10) {
-                    scoreWindow.setSquareLetter(i, 4, String.valueOf(scores[i]));
+                    sw.setSquareLetter(i, 4, String.valueOf(scores[i]));
                 } else {
-                    scoreWindow.setSquareLetter(i, 3, String.valueOf(scores[i]).substring(0, 1));
-                    scoreWindow.setSquareLetter(i, 4, String.valueOf(scores[i]).substring(1, 2));
+                    sw.setSquareLetter(i, 3, String.valueOf(scores[i]).substring(0, 1));
+                    sw.setSquareLetter(i, 4, String.valueOf(scores[i]).substring(1, 2));
                 }
             }
         } else {
             wipeScores();
-            scoreWindow.showMessage("Scores Deleted!");
+            sw.showMessage("Scores Deleted!");
         }
     }
 
