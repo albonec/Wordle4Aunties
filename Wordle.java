@@ -85,7 +85,8 @@ public class Wordle {
                     hasWon = true;
                 }
                 else if (guesses == 5 && !hasWon) {
-                    gw.showMessage("The word was: " + word);
+                    gw.showMessage("The word was: " + word + ". Press enter to restart.");
+                    hasWon = true;
                 } else {
                     gw.setCurrentRow(gw.getCurrentRow() + 1);
                     guesses++;
@@ -98,7 +99,7 @@ public class Wordle {
         } else if (hasWon) {
             sw.close();
             gw.close();
-            Runtime.getRuntime().exec("java -jar wordle-offine.jar");
+            Runtime.getRuntime().exec("java -jar wordle-offline.jar");
             System.exit(0);
         }
     }
@@ -244,25 +245,6 @@ public class Wordle {
         } catch(Exception e) {
             System.out.println("Couldn't wipe scores, file nonexistent. StackTrace: " + e.getStackTrace().toString());
         }
-    }
-
-    public void restartApplication() throws URISyntaxException, IOException {
-        final String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
-        final File currentJar = new File(Wordle.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-
-        /* is it a jar file? */
-        if(!currentJar.getName().endsWith(".jar"))
-            return;
-
-        /* Build command: java -jar application.jar */
-        final ArrayList<String> command = new ArrayList<String>();
-        command.add(javaBin);
-        command.add("-jar");
-        command.add(currentJar.getPath());
-
-        final ProcessBuilder builder = new ProcessBuilder(command);
-        builder.start();
-        System.exit(0);
     }
 
     /* Startup code */
