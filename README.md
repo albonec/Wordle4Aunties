@@ -1,6 +1,7 @@
 # Wordle4Aunties
 
 Wordle port based on Java AWT/Swing GUI that can be played with no Internet connection. Can be used as a practice utility for avid Wordlers.
+The name of this repository very much reflects the target audience. You know who you are.
 
 ## Installation:
 
