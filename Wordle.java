@@ -68,6 +68,7 @@ public class Wordle {
     }
 
     public void enterAction(String s) throws IOException, URISyntaxException {
+        System.out.println(word);
         if(!hasWon) {
             if(!isValidWord(s)) {
                 gw.showMessage("Please enter an actual word");
@@ -185,7 +186,7 @@ public class Wordle {
     public void writeToFile(String input) {
         PrintWriter outputStream;
         try {
-            outputStream = new PrintWriter(new FileOutputStream("score.txt", true));
+            outputStream = new PrintWriter(new FileOutputStream("scores", true));
             outputStream.println(input);
             outputStream.close();
         } catch (FileNotFoundException e) {
@@ -196,7 +197,7 @@ public class Wordle {
 
     //scores will be returned in int[] in the order [1, 2, 3, 4, 5, 6]
     public int[] readScores() throws FileNotFoundException {
-        Scanner scan = new Scanner(new FileReader("score.txt"));
+        Scanner scan = new Scanner(new FileReader("scores"));
         ArrayList<String> lines = new ArrayList<>();
         int[] scoreOutput = new int[6];
         while(scan.hasNextLine()) {
@@ -240,7 +241,7 @@ public class Wordle {
 
     public void wipeScores() {
         try {
-            new FileOutputStream("score.txt").close();
+            new FileOutputStream("scores").close();
         } catch(Exception e) {
             System.out.println("Couldn't wipe scores, file nonexistent. StackTrace: " + e.getStackTrace().toString());
         }
