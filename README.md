@@ -5,7 +5,7 @@ The name of this repository very much reflects the target audience. You know who
 
 ## Installation:
 
-Switch branches of the repository depending on which version you'd like to download (cheats or no cheats), and go to the releases section to obtain the respective Jarfile. Latest release has dropped support for cheats.
+Switch branches of the repository depending on which version you'd like to download (cheats or no cheats), and go to the releases section to obtain the respective Jarfile.
 
 
 ##### — made with &#128150; by albonec
