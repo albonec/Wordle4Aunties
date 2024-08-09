@@ -103,7 +103,6 @@ public class Wordle {
         }
     }
     public String getHint(String guess, String word) {
-        // Create a char array to hold the hint
         char[] hint = new char[word.length()];
 
         if(guess.equals("LEVEL") && word.equals("EXECS")) {
@@ -114,25 +113,14 @@ public class Wordle {
             return "sa*S*";
         }
 
-        // Set all elements of the hint array to '*' by default
         Arrays.fill(hint, '*');
 
-        // Loop through each letter in the guess
         for (int i = 0; i < guess.length(); i++) {
-            // If the current letter is in the correct position,
-            // set the corresponding element in the hint array to
-            // the capital letter of the guess
             if (guess.charAt(i) == word.charAt(i)) {
                 hint[i] = Character.toUpperCase(guess.charAt(i));
             }
         }
-
-        // Loop through each letter in the guess again
         for (int i = 0; i < guess.length(); i++) {
-            // If the current letter is not in the correct position,
-            // check if it appears anywhere else in the word. If it
-            // does, set the corresponding element in the hint array
-            // to the lowercase version of the letter
             if (guess.charAt(i) != word.charAt(i)) {
                 int index = guess.indexOf(word.charAt(i));
                 if (index != -1) {
@@ -141,7 +129,6 @@ public class Wordle {
             }
         }
 
-        // Return the hint array as a string
         return new String(hint);
     }
 
